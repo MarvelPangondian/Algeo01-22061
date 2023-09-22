@@ -1,5 +1,6 @@
 
 import java.util.*;
+import java.lang.*;
 public class Matrix {
 	static Scanner scan = new Scanner(System.in);
 	//attributes
@@ -8,7 +9,9 @@ public class Matrix {
 	
 	// initial attributes, for determinant;
 	int num_switch = 0;
-	int k = 1;
+	double K = 1;
+	boolean solvable = true;
+	
 	
 	//Konstruktor
 	public Matrix(int r, int c) {
@@ -59,14 +62,16 @@ public class Matrix {
 	}
 	
 	
-	public void copyMatrix(Matrix mKeluar) {
-		int r,c;
-		
-		for (r = 0 ; r < mKeluar.row ; ++r) {
-			for (c = 0 ; c < mKeluar.col ; ++c) {
-				mKeluar.setElmt(r, c, this.getElmt(r,c));
+	public Matrix copyMatrix() {
+		Matrix matOut = new Matrix(this.getRow(),this.getCol());
+		int row,col;
+		for (row = 0 ; row < matOut.getRow() ; ++row) {
+			for (col = 0 ; col < matOut.getCol() ; ++col) {
+				matOut.setElmt(row, col, this.getElmt(row, col));
 			}
 		}
+		
+		return matOut;
 		
 	}
 	
@@ -95,6 +100,41 @@ public class Matrix {
 		
 		
 	
+	}
+	public int leadingOneRowIdx(int r) {
+		// mencari letak leading one pada sebuah row, mengembalikan index kolom letak leading one pada row r;
+		int idx,col;
+		idx = 9999; // mark, if no leading one
+		
+		for (col = 0 ; col < this.getCol() ; ++col) {
+			if (this.getElmt(r, col) == 1) {
+				idx = col;
+				break;
+			}
+		}
+		return idx;
+		
+		
+		
+	}
+	
+	public static double determinanReduksi(Matrix mat) {
+		Matrix mhasil;
+		mhasil = SPL.gauss(mat);
+		double det = Math.pow(-1, mhasil.num_switch);
+		int row,col;
+		for (row = 0 ; row <= mhasil.getLastIdxRow() ; ++row) {
+			for (col = 0 ; col <= mhasil.getLastIdxCol() ; ++col) {
+				if (row == col) {
+					det *= mhasil.getElmt(row, col);
+				}
+		det = det / mhasil.K;
+		return det;
+				
+			}
+		}
+		
+		return det;
 	}
 
 }
