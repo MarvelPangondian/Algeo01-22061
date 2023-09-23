@@ -3,7 +3,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-		// TODO Auto-generated method stub\
+//		// TODO Auto-generated method stub\
 		System.out.println("=======Percobaan gauss method=========");
 		System.out.print("number of rows : ");
 		int n_row = scan.nextInt();
@@ -19,6 +19,26 @@ public class Main {
 		System.out.print("\n");
 		System.out.printf("k = %f\n",hasil_gauss.K);
 		System.out.printf("determinan = %f\n",Matrix.determinanReduksi(m));
+		Matrix mKoef;
+		mKoef = Matrix.getMatrixCoefficient(m);
+		Matrix mConst;
+		mConst = Matrix.getMatrixConstant(m);
+		Matrix sub;
+		sub = Matrix.subMatrix(m,0,1);
+		System.out.println("Matrix coefficient :");
+		mKoef.displayMatrix();
+		System.out.println("Matrix constant : ");
+		mConst.displayMatrix();
+		System.out.println("Submatrix (get rid of row 0 column 1) : ");
+		sub.displayMatrix();
+		System.out.printf("Determinant using expnasion cofaktor : %f\n",Matrix.determinanEkspansiKofaktor(Matrix.getMatrixCoefficient(m)));
+		Matrix mat_cramer;
+		mat_cramer = SPL.cramerMethod(m);
+		System.out.println("=======Percobaan cramer=========");
+		System.out.println("Hasil penyelesaian dengan metode cramer : ");
+		mat_cramer.displayMatrix();
+		
+		
 
 		
 //		System.out.println("=======Percobaan gauss method=========");
