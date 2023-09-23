@@ -128,11 +128,12 @@ public class Matrix {
 				if (row == col) {
 					det *= mhasil.getElmt(row, col);
 				}
-		det = det / mhasil.K;
-		return det;
+		
+		
 				
 			}
 		}
+		det = det / mhasil.K;
 		
 		return det;
 	}

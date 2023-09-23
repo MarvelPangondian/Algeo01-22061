@@ -57,18 +57,21 @@ public class SPL {
 			
 		}
 		
+		
 		// proses switching rows
 		int row_searching, row_searching_after;
 		
 		for (row_searching = 0 ; row_searching <= matOut.getLastIdxRow(); ++row_searching) {
-			int id_min = row_searching;
+			int id_min =  matOut.leadingOneRowIdx(row_searching) ;
+//			System.out.printf("id_min current = %d \n",id_min);
 			for (row_searching_after = row_searching + 1;row_searching_after <= matOut.getLastIdxRow() ; ++row_searching_after) {
-				if ( matOut.leadingOneRowIdx(row_searching_after) <  matOut.leadingOneRowIdx(row_searching)  ) {
+				if ( matOut.leadingOneRowIdx(row_searching_after) < id_min ) {
 					id_min = row_searching_after;
 				}
 				
 			}
-			if (id_min != row_searching) {
+//			System.out.printf("id_min after = %d",id_min);
+			if (id_min != matOut.leadingOneRowIdx(row_searching) ) {
 				matOut.switchRow(row_searching,id_min);
 				matOut.num_switch += 1;
 			}
