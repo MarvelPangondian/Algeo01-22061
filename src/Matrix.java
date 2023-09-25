@@ -137,5 +137,89 @@ public class Matrix {
 		
 		return det;
 	}
+	
+	public static double determinanEkspansiKofaktor(Matrix mat) {
+		int col;
+		double det,sign;
+		sign = 1;
+		det = 0;
+		
+		if (mat.getCol() == 1 && mat.getRow() == 1) {
+			return mat.getElmt(0, 0);
+		}
+		// dengan row pertama 
+		
+		for (col = 0 ; col < mat.getCol() ; ++col) {
+			det += sign * mat.getElmt(0, col)* Matrix.determinanEkspansiKofaktor(Matrix.subMatrix(mat, 0, col)) ;
+			sign *= (-1);
+			
+		}
+		
+		
+		
+		return det;
+		
+		
+	}
+	
+	
+	
+	public static Matrix getMatrixConstant(Matrix mIn) {
+		Matrix mOut = new Matrix (mIn.getRow(),1);
+		int row;
+		for (row = 0 ; row < mOut.getRow() ; ++row) {
+			mOut.setElmt(row, 0, mIn.getElmt(row, mIn.getLastIdxCol()));
+		}
+		return mOut;
+		
+	}
+	
+	public static Matrix getMatrixCoefficient(Matrix mIn) {
+		Matrix mOut = new Matrix(mIn.getRow(),mIn.getCol() - 1);
+		int row,col;
+		for (row = 0 ; row < mIn.getRow() ; ++row) {
+			for (col = 0 ; col < mIn.getCol(); ++col) {
+				if (col != mIn.getLastIdxCol()) {
+					mOut.setElmt(row, col, mIn.getElmt(row, col));
+				}
+			}
+		}
+				
+		
+		return mOut;
+	}
+	
+	
+	public static Matrix subMatrix(Matrix mIn, int r, int c) {
+		Matrix matOut = new Matrix(mIn.getRow() - 1, mIn.getCol() - 1);
+		int row,col;
+		int outRow,outCol;
+		outRow = 0; outCol = 0 ;
+		
+		for (row = 0 ; row < mIn.getRow() ; ++row) {
+			for (col = 0 ; col < mIn.getCol() ; ++col) {
+				if (row != r && col != c) {
+					matOut.setElmt(outRow, outCol, mIn.getElmt(row, col));
+					++outCol;
+					if (outCol >= matOut.getCol()) {
+						outCol = 0;
+						++outRow;
+					}
+				}
+			}
+		}
+		return matOut;
+	}
+	
+	public static Matrix changeColumn(Matrix mat, Matrix mat_col, int c) {
+		Matrix mHasil;
+		int row;
+		mHasil  = mat.copyMatrix();
+		// matCol terdiri dari satu kolom saja
+		for (row = 0 ; row < mHasil.getRow() ; ++row) {
+			mHasil.setElmt(row, c, mat_col.getElmt(row, 0));
+		}
+		return mHasil;
+	}
 
 }

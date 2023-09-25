@@ -80,6 +80,31 @@ public class SPL {
 		
 		return matOut;
 	}
+	
+	public static Matrix cramerMethod(Matrix mIn) {
+		Matrix mOut = new Matrix(mIn.getRow(),1);
+		double detIn = Matrix.determinanEkspansiKofaktor( Matrix.getMatrixCoefficient(mIn) );
+		double x = -9999; // marker
+		int row,col;
+		
+		for (row = 0 ; row < mIn.getRow() ; ++row) {
+			mOut.setElmt(row, 0, x); // set all element of mOut to marker first
+		}
+		row = 0;
+		if (detIn != 0) {
+			for (col = 0 ; col < mIn.getCol()-1 ; ++col) {
+				Matrix mTemp;
+				mTemp = Matrix.changeColumn(Matrix.getMatrixCoefficient(mIn), Matrix.getMatrixConstant(mIn), col);
+				mOut.setElmt(row, 0, Matrix.determinanEkspansiKofaktor(mTemp)/detIn  );
+				row++;
+				
+			}
+		}
+		
+		return mOut; // if detIn == 0, cramer cannot be done, mOut will be filled with marker
+		
+		
+	}	
 
 
 }
