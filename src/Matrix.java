@@ -222,4 +222,32 @@ public class Matrix {
 		return mHasil;
 	}
 
+	public static Matrix multiplyMatrix(Matrix m1, Matrix m2){
+		Matrix mHasil = new Matrix(m1.getRow(), m2.getCol());
+		int row,col,i;
+		for(row = 0; row< m1.getRow(); row++){
+			for(col = 0; col< m2.getCol(); col++){
+				for(i = 0; i< m1.getCol(); i++){
+					mHasil.content[row][col] += m1.getElmt(row,col)*m2.getElmt(col, row);
+				}
+			}
+		}
+		return mHasil;
+	}
+	public void identityMatrix(){
+		for(i = 0; i<row; i++){
+			for(j = 0; j<col; j++){
+				if (i == j){
+					this.setElmt(row, col, 1);
+				}else{
+					this.setElmt(row, col, 0);
+				}
+			}
+		}
+	}
+	public static Matrix inversGaussJordan(Matrix mIn){
+		Matrix mOut = new Matrix(mIn.getRow(), mIn.getCol());
+		mOut.identityMatrix();
+
+	}
 }

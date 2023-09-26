@@ -104,7 +104,26 @@ public class SPL {
 		return mOut; // if detIn == 0, cramer cannot be done, mOut will be filled with marker
 		
 		
-	}	
+	}
+	public static Matrix gaussjordan(Matrix mIn){
+		Matrix matOut;
+		int row;
+		matOut = SPL.gauss(mIn);
+		for (row = matOut.getLastIdxRow() ; row >= 0; row--){
+			int currCol = matOut.leadingOneRowIdx(row);
+			if (currCol == 9999){
+				currCol = 0;
+			}
+			int row_make_zero, col_make_zero;
+			for(row_make_zero = row-1; row_make_zero>=0; row_make_zero--){
+				double faktor = matOut.getElmt(row_make_zero, currCol);
+				for(col_make_zero=0; col_make_zero<matOut.getCol(); col_make_zero++){
+					matOut.setElmt(row_make_zero,col_make_zero, matOut.getElmt(row_make_zero,col_make_zero)-faktor*matOut.getElmt(row,col_make_zero));
+				}
+			}
+			
 
-
+		}
+		return matOut;
+	}
 }
