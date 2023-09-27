@@ -44,6 +44,13 @@ public class Main {
 		Matrix M_inverse = SPL.splInverse(m);
 		M_inverse.displayMatrix();
 		
+		Matrix cof = Matrix.getMatrixCofactor(Matrix.getMatrixCoefficient(m));
+		System.out.println("Matrix cofactor : ");
+		cof.displayMatrix();
+		System.out.println("Matrix inverse : ");
+		Matrix inv = Matrix.getMatrixInverseAdjoin(Matrix.getMatrixCoefficient(m));
+		inv.displayMatrix();
+		
 		
 
 		

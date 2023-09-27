@@ -119,6 +119,17 @@ public class Matrix {
 		
 	}
 	
+	public static Matrix matMultiplyByConst(Matrix mIn, double k) {
+		Matrix mOut = mIn.copyMatrix();
+		for (int row = 0 ; row < mOut.getRow() ; ++row) {
+			for (int col = 0 ; col < mOut.getCol() ; ++col) {
+				mOut.setElmt(row, col, k * mOut.getElmt(row, col));
+				
+			}
+		}
+		return mOut;
+	}
+	
 	public static double determinanReduksi(Matrix mat) {
 		Matrix mhasil;
 		mhasil = SPL.gauss(mat);
@@ -284,4 +295,42 @@ public class Matrix {
 		}
 		return mHasil;
 	}
+	
+	public static Matrix getMatrixCofactor(Matrix mIn) {
+		Matrix mOut = mIn.copyMatrix();
+		for (int row = 0 ; row < mOut.getRow() ; ++row) {
+			for (int col = 0 ; col < mOut.getCol() ; ++col) {
+				if ( (row + col) % 2 == 0) {
+					mOut.setElmt(row, col, Matrix.determinanEkspansiKofaktor(Matrix.subMatrix(mIn, row, col) ) );
+					
+				}
+				else {
+					mOut.setElmt(row, col, (-1)* Matrix.determinanEkspansiKofaktor(Matrix.subMatrix(mIn, row, col) ) );
+				}
+				
+			}
+		}
+		return mOut;
+		
+	}
+	public static Matrix getMatrixtranspose(Matrix mIn) {
+		Matrix mOut = new Matrix(mIn.getCol(), mIn.getCol());
+		
+		for (int row = 0 ; row < mOut.getRow() ; ++row) {
+			for (int col = 0 ; col < mOut.getCol(); ++col) {
+				mOut.setElmt(row, col, mIn.getElmt(col, row));
+			}
+		}
+		return mOut;
+	}
+	
+	public static Matrix getMatrixInverseAdjoin(Matrix mIn) {
+		double det = Matrix.determinanEkspansiKofaktor(mIn);
+		Matrix adjoin = Matrix.getMatrixtranspose(Matrix.getMatrixCofactor(mIn));
+		Matrix inverse = new Matrix(mIn.getRow(),mIn.getCol());
+		inverse = Matrix.matMultiplyByConst(adjoin, 1/det);
+		return inverse;
+	}
+	
+	
 }
