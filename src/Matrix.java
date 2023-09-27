@@ -324,7 +324,7 @@ public class Matrix {
 		return mOut;
 	}
 	
-	public static Matrix getMatrixinverseAdjoin(Matrix mIn) {
+	public static Matrix getMatrixInverseAdjoin(Matrix mIn) {
 		double det = Matrix.determinanEkspansiKofaktor(mIn);
 		Matrix adjoin = Matrix.getMatrixtranspose(Matrix.getMatrixCofactor(mIn));
 		Matrix inverse = new Matrix(mIn.getRow(),mIn.getCol());
