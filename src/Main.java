@@ -37,6 +37,12 @@ public class Main {
 		System.out.println("=======Percobaan cramer=========");
 		System.out.println("Hasil penyelesaian dengan metode cramer : ");
 		mat_cramer.displayMatrix();
+		System.out.println("=======inverse =========");
+		Matrix mInverse = Matrix.inversGaussJordan(Matrix.getMatrixCoefficient(m));
+		mInverse.displayMatrix();
+		System.out.println("=======SPL Inverse =========");
+		Matrix M_inverse = SPL.splInverse(m);
+		M_inverse.displayMatrix();
 		
 		
 

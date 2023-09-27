@@ -126,4 +126,11 @@ public class SPL {
 		}
 		return matOut;
 	}
+	public static Matrix splInverse(Matrix mIn) {
+		Matrix mInvers = Matrix.getMatrixCoefficient(mIn);
+		Matrix mConstant = Matrix.getMatrixConstant(mIn);
+		mInvers = Matrix.inversGaussJordan(mInvers);
+		Matrix mOut = Matrix.multiplyMatrix(mInvers, mConstant);
+		return mOut;
+	}
 }
