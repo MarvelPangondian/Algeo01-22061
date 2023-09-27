@@ -284,4 +284,25 @@ public class Matrix {
 		}
 		return mHasil;
 	}
+	
+	public static Matrix getMatrixCofactor(Matrix mIn) {
+		Matrix mOut = mIn.copyMatrix();
+		for (int row = 0 ; row < mOut.getRow() ; ++row) {
+			for (int col = 0 ; col < mOut.getCol() ; ++col) {
+				if ( (row + col) % 2 == 0) {
+					mOut.setElmt(row, col, Matrix.determinanEkspansiKofaktor(Matrix.subMatrix(mIn, row, col) ) );
+					
+				}
+				else {
+					mOut.setElmt(row, col, (-1)* Matrix.determinanEkspansiKofaktor(Matrix.subMatrix(mIn, row, col) ) );
+				}
+				
+			}
+		}
+		return mOut;
+		
+	}
+	public static getMatrixtranspose() {}
+	
+	
 }
