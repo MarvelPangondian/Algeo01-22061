@@ -119,6 +119,17 @@ public class Matrix {
 		
 	}
 	
+	public static Matrix matMultiplyByConst(Matrix mIn, double k) {
+		Matrix mOut = mIn.copyMatrix();
+		for (int row = 0 ; row < mOut.getRow() ; ++row) {
+			for (int col = 0 ; col < mOut.getCol() ; ++col) {
+				mOut.setElmt(row, col, k * mOut.getElmt(row, col));
+				
+			}
+		}
+		return mOut;
+	}
+	
 	public static double determinanReduksi(Matrix mat) {
 		Matrix mhasil;
 		mhasil = SPL.gauss(mat);
@@ -302,7 +313,24 @@ public class Matrix {
 		return mOut;
 		
 	}
-	public static getMatrixtranspose() {}
+	public static Matrix getMatrixtranspose(Matrix mIn) {
+		Matrix mOut = new Matrix(mIn.getCol(), mIn.getCol());
+		
+		for (int row = 0 ; row < mOut.getRow() ; ++row) {
+			for (int col = 0 ; col < mOut.getCol(); ++col) {
+				mOut.setElmt(row, col, mIn.getElmt(col, row));
+			}
+		}
+		return mOut;
+	}
+	
+	public static Matrix getMatrixinverseAdjoin(Matrix mIn) {
+		double det = Matrix.determinanEkspansiKofaktor(mIn);
+		Matrix adjoin = Matrix.getMatrixtranspose(Matrix.getMatrixCofactor(mIn));
+		Matrix inverse = new Matrix(mIn.getRow(),mIn.getCol());
+		inverse = Matrix.matMultiplyByConst(adjoin, 1/det);
+		return inverse;
+	}
 	
 	
 }

@@ -47,6 +47,9 @@ public class Main {
 		Matrix cof = Matrix.getMatrixCofactor(Matrix.getMatrixCoefficient(m));
 		System.out.println("Matrix cofactor : ");
 		cof.displayMatrix();
+		System.out.println("Matrix inverse : ");
+		Matrix inv = Matrix.getMatrixinverseAdjoin(Matrix.getMatrixCoefficient(m));
+		inv.displayMatrix();
 		
 		
 
