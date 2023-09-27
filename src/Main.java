@@ -3,21 +3,21 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-//		// TODO Auto-generated method stub\
-		System.out.println("=======Percobaan gauss method=========");
+		// TODO Auto-generated method stub
+		System.out.println("=======Percobaan gauss jordan method=========");
 		System.out.print("number of rows : ");
 		int n_row = scan.nextInt();
 		System.out.print("number of columns : ");
 		int n_col = scan.nextInt();
 		Matrix m = new Matrix(n_row,n_col);
 		m.readMatrix();
-		Matrix hasil_gauss;
-		hasil_gauss = SPL.gauss(m);
+		Matrix hasil_gaussjordan;
+		hasil_gaussjordan = SPL.gaussjordan(m);
 		System.out.println("hasil pertama :");
-		hasil_gauss.displayMatrix();
-		System.out.printf("switch = %d",hasil_gauss.num_switch);
+		hasil_gaussjordan.displayMatrix();
+		System.out.printf("switch = %d",hasil_gaussjordan.num_switch);
 		System.out.print("\n");
-		System.out.printf("k = %f\n",hasil_gauss.K);
+		System.out.printf("k = %f\n",hasil_gaussjordan.K);
 		System.out.printf("determinan = %f\n",Matrix.determinanReduksi(m));
 		Matrix mKoef;
 		mKoef = Matrix.getMatrixCoefficient(m);
@@ -37,6 +37,12 @@ public class Main {
 		System.out.println("=======Percobaan cramer=========");
 		System.out.println("Hasil penyelesaian dengan metode cramer : ");
 		mat_cramer.displayMatrix();
+		System.out.println("=======inverse =========");
+		Matrix mInverse = Matrix.inversGaussJordan(Matrix.getMatrixCoefficient(m));
+		mInverse.displayMatrix();
+		System.out.println("=======SPL Inverse =========");
+		Matrix M_inverse = SPL.splInverse(m);
+		M_inverse.displayMatrix();
 		
 		
 

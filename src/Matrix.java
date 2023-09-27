@@ -51,6 +51,7 @@ public class Matrix {
 		this.content[r][c] = x;
 	}
 	
+	
 	// Reader
 	public void readMatrix() {
 		int r,c;
@@ -222,4 +223,65 @@ public class Matrix {
 		return mHasil;
 	}
 
+	public static Matrix multiplyMatrix(Matrix m1, Matrix m2){
+		Matrix mHasil = new Matrix(m1.getRow(), m2.getCol());
+		int row,col,i;	
+		for(row = 0; row< m1.getRow(); row++){
+			for(col = 0; col< m2.getCol(); col++){
+				double hasil = 0;
+				for(i = 0; i< m2.getRow(); i++){
+					hasil += m1.getElmt(row,i)*m2.getElmt(i, col);
+				}
+				mHasil.setElmt(row, col, hasil);
+			}
+		}
+		return mHasil;
+	}
+	public void identityMatrix(){
+		int i,j;
+		for(i = 0; i<this.row; i++){
+			for(j = 0; j<this.col; j++){
+				if (i == j){
+					this.setElmt(i, j, 1);
+				}else{
+					this.setElmt(i, j, 0);
+				}
+			}
+		}
+	}
+	public static Matrix konkatMatrix(Matrix m1, Matrix m2) {
+		Matrix mHasil = new Matrix(m1.getRow(),m1.getCol()+m2.getCol());
+		int i,j;
+		for(i = 0; i<m1.getRow();i++) {
+			for(j=0; j<m1.getCol();j++) {
+				mHasil.setElmt(i, j, m1.getElmt(i, j));
+			}
+		}
+		
+		for(i = 0; i<m1.getRow();i++) {
+			int currCol = 0;
+			for(j= m1.getCol(); j<mHasil.getCol();j++) {
+				mHasil.setElmt(i, j, m2.getElmt(i, currCol));
+				currCol += 1;
+			}
+		}
+		return mHasil;
+	}
+	
+	public static Matrix inversGaussJordan(Matrix mIn){
+		int i,j;
+		Matrix mIdentity = new Matrix(mIn.getRow(), mIn.getCol());
+		mIdentity.identityMatrix();
+		Matrix mKonkat = Matrix.konkatMatrix(mIn, mIdentity);
+		mKonkat = SPL.gaussjordan(mKonkat);
+		Matrix mHasil = mIdentity.copyMatrix();
+		for(i = 0; i<mKonkat.getRow();i++) {
+			int currCol = 0;
+			for(j= mIn.getCol(); j<=mKonkat.getLastIdxCol();j++) {
+				mHasil.setElmt(i, currCol, mKonkat.getElmt(i,j));
+				currCol++;
+			}
+		}
+		return mHasil;
+	}
 }
