@@ -24,4 +24,23 @@ public class Polinom {
         solMatrix = Matrix.getMatrixConstant(solMatrix);
         return solMatrix;
     }
+
+    public static String getPolinomEq(Matrix solMatrix){
+        String Eq = "f(x) = ";
+        int row;
+        for(row = 0; row < solMatrix.getRow(); row++){
+            if (row == 0 && solMatrix.getElmt(row, solMatrix.getCol()-1) < 0){
+                Eq += String.format("-%f ", -1*solMatrix.getElmt(row, solMatrix.getCol()-1));
+            }else if(row ==0 ){
+                Eq += String.format("%f ", solMatrix.getElmt(row, solMatrix.getCol()-1));
+            }else{
+                if (solMatrix.getElmt(row, solMatrix.getCol()-1) < 0){
+                    Eq += String.format("- %fx^%d ", -1*solMatrix.getElmt(row, solMatrix.getCol()-1), row);
+                }else{
+                    Eq += String.format("+ %fx^%d ", solMatrix.getElmt(row, solMatrix.getCol()-1), row);
+                }
+            }
+        }
+        return Eq;
+    }
 }
