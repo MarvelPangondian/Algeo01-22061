@@ -4,19 +4,19 @@ import java.util.*;
 
 public class FileInputOutput {
 	
-	
+	private static Scanner scan = new Scanner(System.in);
 	// memulai dengan readFile
 	public static Matrix readFileMatrix() throws IOException{
 		boolean path_exist = false;
 		String path = "";
-		Scanner scan = new Scanner(System.in);
+		
 		while (!path_exist) {
 			int pilihan;
 			do {
 				
 				System.out.println("====Proses membaca file====");
 				
-				System.out.println("1.Nama file (pastikan file di folder src)");
+				System.out.println("1.Nama file (pastikan file di folder test)");
 				System.out.println("2.Full path");
 				System.out.print("Pilihan (1/2) : ");
 				pilihan = scan.nextInt();
@@ -31,7 +31,7 @@ public class FileInputOutput {
 				
 				System.out.print("Masukkan nama file (dengan extension) : ");
 				String file_name = scan.nextLine();
-				path += "\\" + "src\\" + file_name;
+				path += "\\" + "test\\" + file_name;
 				
 				
 			}
@@ -56,7 +56,7 @@ public class FileInputOutput {
 			
 			}
 		}
-		scan.close();
+		
 		return FileInputOutput.getMatrixFromFile(path);
 		
 		
@@ -120,7 +120,176 @@ public class FileInputOutput {
 	}
 
 	
+	// Write file 
 	
+	// opsi untuk gauss, gauss jordan, cremer, dan metode spl matriks balikan
+	public static void opsiSaveFile(String[] arr) {
+		int opsi;
+		
+		do {
+			System.out.println("Apakah ingin simpan hasil ke dalam file ?");
+			System.out.println("1.Iya");
+			System.out.println("2.Tidak");
+			opsi = scan.nextInt();
+			scan.nextLine();
+			 // hilangkan newline
+			if (opsi != 1 && opsi != 2) {
+				System.out.println("Tolong masukkan opsi yang valid");
+			}
+		}while(opsi != 1 && opsi != 2);
+		if (opsi == 1) {
+			writeSPL(arr);
+		}
+		
+		
+		
+		
+	}
+	
+	// opsi untuk determinan
+	public static void opsiSaveFile(double k) {
+		int opsi;
+		
+		do {
+			System.out.println("Apakah ingin simpan hasil ke dalam file ?");
+			System.out.println("1.Iya");
+			System.out.println("2.Tidak");
+			opsi = scan.nextInt();
+			scan.nextLine(); // hilangkan newline
+			if (opsi != 1 && opsi != 2) {
+				System.out.println("Tolong masukkan opsi yang valid");
+			}
+		}while(opsi != 1 && opsi != 2);
+	
+		
+		
+		
+	}
+	
+	// opsi untuk matrix inverse 
+	public static void opsiSaveFile(Matrix mInv) {
+		int opsi;
+		
+		do {
+			System.out.println("Apakah ingin simpan hasil ke dalam file ?");
+			System.out.println("1.Iya");
+			System.out.println("2.Tidak");
+			opsi = scan.nextInt();
+			scan.nextLine(); // hilangkan newline
+			if (opsi != 1 && opsi != 2) {
+				System.out.println("Tolong masukkan opsi yang valid");
+			}
+		}while(opsi != 1 && opsi != 2);
+		
+		
+		
+		
+	}
+
+	
+	// Operasi Menulis SPL
+	public static void writeSPL(String[] arr) {
+		
+		File file = null;
+		// save di output
+		do {
+			System.out.print("Masukkan nama file bersama extension .txt : ");
+			
+			String name_file =  scan.nextLine();
+			String path = System.getProperty("user.dir");
+			path += "\\test\\Output\\" +name_file;
+			file = new File(path);
+			if (file.exists()) {
+				System.out.println("File tersebut sudah ada !, tolong masukkan nama file ulang");
+			}
+			
+		}
+		while (file.exists());
+		try {
+			PrintWriter pw = new PrintWriter(file);
+			for (int i = 0 ; i < arr.length ; ++i) {
+				pw.printf("x%d = %s\n",i+1,arr[i]);
+			}
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
+		
+	}
+	
+	public static void writeDeterminan(double k) {
+		
+		File file = null;
+		// save di output
+		do {
+			System.out.print("Masukkan nama file bersama extension .txt : ");
+			
+			String name_file =  scan.nextLine();
+			String path = System.getProperty("user.dir");
+			path += "\\test\\Output\\" +name_file;
+			file = new File(path);
+			if (file.exists()) {
+				System.out.println("File tersebut sudah ada !, tolong masukkan nama file ulang");
+			}
+			
+		}
+		while (file.exists());
+		try {
+			PrintWriter pw = new PrintWriter(file);
+			pw.print(k);
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
+		
+	}
+	
+	public static void writeMatrixInverse(Matrix mat) {
+		
+		File file = null;
+		// save di output
+		do {
+			System.out.print("Masukkan nama file bersama extension .txt : ");
+			
+			String name_file =  scan.nextLine();
+			String path = System.getProperty("user.dir");
+			path += "\\test\\Output\\" +name_file;
+			file = new File(path);
+			if (file.exists()) {
+				System.out.println("File tersebut sudah ada !, tolong masukkan nama file ulang");
+			}
+			
+		}
+		while (file.exists());
+		try {
+			PrintWriter pw = new PrintWriter(file);
+			for (int row = 0 ; row < mat.getRow() ; ++row) {
+				for (int col = 0 ; col < mat.getRow() ; ++col) {
+					pw.print(mat.getElmt(row, col));
+					if (col == mat.getLastIdxCol()) {
+						pw.print("\n");
+					}
+				}
+			}
+			
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
+		
+	}
+
 
 		
 }
+
+
