@@ -102,6 +102,10 @@ public class Matrix {
 		
 	
 	}
+	
+	public static boolean  isPersegi(Matrix mIn) {
+		return mIn.getCol() == mIn.getRow();
+	}
 	public int leadingOneRowIdx(int r) {
 		// mencari letak leading one pada sebuah row, mengembalikan index kolom letak leading one pada row r;
 		int idx,col;
