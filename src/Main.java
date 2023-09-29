@@ -194,6 +194,46 @@ public class Main {
 		
 		
 	}
+
+	public static void menuInterpolasiPolinom() throws IOException{
+		int input_choice;
+		System.out.println("=============== MENU INTERPOLASI POLINOM ===============");
+		inputType();
+		System.out.print("Masukkan pilihan : ");
+		input_choice = scan.nextInt();
+		scan.nextLine();
+		switch(input_choice){
+			case 1:
+				int n;
+				System.out.print("Banyak Point : ");
+				n = scan.nextInt();
+				scan.nextLine();
+				Matrix pointMatrix = new Matrix(n,2);
+				pointMatrix.readMatrix();
+				Matrix linEqMatrix = Polinom.createLinearEq(pointMatrix);
+				Matrix solution = Polinom.getPolinomSol(linEqMatrix);
+				String equation = Polinom.getPolinomEq(solution);
+				String eqString = String.format("Persamaan interpolasi polinom tersebut adalah : %s", equation );
+				System.out.println(eqString);
+				System.out.println("Masukkan nilai x yang ingin ditaksir : ");
+				double x = scan.nextDouble();
+				double taksiran = Polinom.getTaksiran(solution, x);
+				String strTaksiran = String.format("Taksiran f(%f) = %f", x, taksiran);
+				System.out.println(strTaksiran);
+			case 2:
+				Matrix matrixFile = FileInputOutput.readFileMatrix();
+				Matrix poinMatrix = new Matrix(matrixFile.getRow()-1, matrixFile.getCol());
+				double eks = matrixFile.getElmt(matrixFile.getRow(), 0);
+				Matrix linEqMatriks = Polinom.createLinearEq(poinMatrix);
+				Matrix sol = Polinom.getPolinomSol(linEqMatriks);
+				String eq = Polinom.getPolinomEq(sol);
+				String eqStr = String.format("Persamaan interpolasi polinom tersebut adalah : %s", eq);
+				System.out.println(eqStr);
+				double estimate = Polinom.getTaksiran(sol, eks);
+				String strEstimate = String.format("Taksiran f(%f) = %f", eks, estimate);
+				System.out.println(strEstimate);
+		}
+	}
 	
 	
 	public static void main(String[] args) throws IOException  {
@@ -209,6 +249,9 @@ public class Main {
 			switch (menu_choice) {
 				case 1 : // SPL
 					menuSPL();
+					break;
+				case 4:
+					menuInterpolasiPolinom();
 					break;
 				default :
 					menu_choice = 7;
