@@ -222,8 +222,9 @@ public class Main {
 				System.out.println(strTaksiran);
 			case 2:
 				Matrix matrixFile = FileInputOutput.readFileMatrix();
-				Matrix poinMatrix = new Matrix(matrixFile.getRow()-1, matrixFile.getCol());
-				double eks = matrixFile.getElmt(matrixFile.getRow(), 0);
+				Matrix poinMatrix = matrixFile.copyMatrix();
+				poinMatrix.copyMatrixCustom(0,0,matrixFile.getRow()-1,matrixFile.getCol());
+				double eks = matrixFile.getElmt(matrixFile.getRow()-1, 0);
 				Matrix linEqMatriks = Polinom.createLinearEq(poinMatrix);
 				Matrix sol = Polinom.getPolinomSol(linEqMatriks);
 				String eq = Polinom.getPolinomEq(sol);
