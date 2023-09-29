@@ -195,6 +195,64 @@ public class Main {
 		
 	}
 
+	public static void menuMatriksBalikan() throws IOException{
+		int sub_menu_choice, input_choice;
+		subMenuMatriksBalikan();
+		System.out.print("Masukkan pilihan : ");
+		sub_menu_choice = scan.nextInt();
+		scan.nextLine();
+		switch(sub_menu_choice){
+			case 1: // Gauss Jordan
+				System.out.println("=============== Metode Gauss Jordan ===============");
+				inputType();
+				System.out.print("Masukkan pilihan : ");
+				input_choice = scan.nextInt();
+				scan.nextLine();
+				switch(input_choice){
+					case 1:
+						int row,col;
+						System.out.print("Banyak baris : ");
+						row = scan.nextInt();
+						System.out.print("Banyak kolom : ");
+						col = scan.nextInt();
+						scan.nextLine();
+						Matrix inverseMatrix = new Matrix(row,col);
+						System.out.println("Input matriks : ");
+						inverseMatrix.readMatrix();
+						inverseMatrix = Matrix.inversGaussJordan(inverseMatrix);
+						inverseMatrix.displayMatrix();
+					case 2:
+						Matrix inverseMatriks = FileInputOutput.readFileMatrix();
+						inverseMatriks = Matrix.inversGaussJordan(inverseMatriks);
+						inverseMatriks.displayMatrix();
+				}
+			case 2: // Adjoint
+				System.out.println("=============== Metode Adjoint ===============");
+				inputType();
+				System.out.print("Masukkan pilihan : ");
+				input_choice = scan.nextInt();
+				scan.nextLine();
+				switch(input_choice){
+					case 1:
+						int row,col;
+						System.out.print("Banyak baris : ");
+						row = scan.nextInt();
+						System.out.print("Banyak kolom : ");
+						col = scan.nextInt();
+						scan.nextLine();
+						Matrix inverseMatrix = new Matrix(row,col);
+						System.out.println("Input matriks : ");
+						inverseMatrix.readMatrix();
+						inverseMatrix = Matrix.getMatrixInverseAdjoin(inverseMatrix);
+						inverseMatrix.displayMatrix();
+					case 2:
+						Matrix inverseMatriks = FileInputOutput.readFileMatrix();
+						inverseMatriks = Matrix.getMatrixInverseAdjoin(inverseMatriks);
+						inverseMatriks.displayMatrix();
+				}
+		}
+	}
+
 	public static void menuInterpolasiPolinom() throws IOException{
 		int input_choice;
 		System.out.println("=============== MENU INTERPOLASI POLINOM ===============");
@@ -203,7 +261,7 @@ public class Main {
 		input_choice = scan.nextInt();
 		scan.nextLine();
 		switch(input_choice){
-			case 1:
+			case 1: // Input keyboard
 				int n;
 				System.out.print("Banyak Point : ");
 				n = scan.nextInt();
@@ -220,7 +278,7 @@ public class Main {
 				double taksiran = Polinom.getTaksiran(solution, x);
 				String strTaksiran = String.format("Taksiran f(%f) = %f", x, taksiran);
 				System.out.println(strTaksiran);
-			case 2:
+			case 2: // Input file
 				Matrix matrixFile = FileInputOutput.readFileMatrix();
 				Matrix poinMatrix = matrixFile.copyMatrix();
 				poinMatrix.copyMatrixCustom(0,0,matrixFile.getRow()-1,matrixFile.getCol());
@@ -250,6 +308,9 @@ public class Main {
 			switch (menu_choice) {
 				case 1 : // SPL
 					menuSPL();
+					break;
+				case 3:
+					menuMatriksBalikan();
 					break;
 				case 4:
 					menuInterpolasiPolinom();
