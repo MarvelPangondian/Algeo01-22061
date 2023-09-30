@@ -221,11 +221,16 @@ public class Main {
 						inverseMatrix.readMatrix();
 						inverseMatrix = Matrix.inversGaussJordan(inverseMatrix);
 						inverseMatrix.displayMatrix();
+						FileInputOutput.opsiSaveFile(inverseMatrix);
+						break;
 					case 2:
 						Matrix inverseMatriks = FileInputOutput.readFileMatrix();
 						inverseMatriks = Matrix.inversGaussJordan(inverseMatriks);
 						inverseMatriks.displayMatrix();
+						FileInputOutput.opsiSaveFile(inverseMatriks);
+						break;
 				}
+				break;
 			case 2: // Adjoint
 				System.out.println("=============== Metode Adjoint ===============");
 				inputType();
@@ -245,11 +250,16 @@ public class Main {
 						inverseMatrix.readMatrix();
 						inverseMatrix = Matrix.getMatrixInverseAdjoin(inverseMatrix);
 						inverseMatrix.displayMatrix();
+						FileInputOutput.opsiSaveFile(inverseMatrix);
+						break;
 					case 2:
 						Matrix inverseMatriks = FileInputOutput.readFileMatrix();
 						inverseMatriks = Matrix.getMatrixInverseAdjoin(inverseMatriks);
 						inverseMatriks.displayMatrix();
+						FileInputOutput.opsiSaveFile(inverseMatriks);
+						break;
 				}
+				break;
 		}
 	}
 
@@ -278,6 +288,9 @@ public class Main {
 				double taksiran = Polinom.getTaksiran(solution, x);
 				String strTaksiran = String.format("Taksiran f(%f) = %f", x, taksiran);
 				System.out.println(strTaksiran);
+				String[]arrstr = new String[]{eqString,strTaksiran};
+				FileInputOutput.opsiSaveFilePolinom(arrstr);
+				break;
 			case 2: // Input file
 				Matrix matrixFile = FileInputOutput.readFileMatrix();
 				Matrix poinMatrix = matrixFile.copyMatrix();
@@ -291,6 +304,9 @@ public class Main {
 				double estimate = Polinom.getTaksiran(sol, eks);
 				String strEstimate = String.format("Taksiran f(%f) = %f", eks, estimate);
 				System.out.println(strEstimate);
+				String[] arr = new String[]{eqStr,strEstimate};
+				FileInputOutput.opsiSaveFilePolinom(arr);
+				break;
 		}
 	}
 	

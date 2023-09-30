@@ -145,6 +145,28 @@ public class FileInputOutput {
 		
 		
 	}
+		public static void opsiSaveFilePolinom(String[] arr) {
+		int opsi;
+		
+		do {
+			System.out.println("Apakah ingin simpan hasil ke dalam file ?");
+			System.out.println("1.Iya");
+			System.out.println("2.Tidak");
+			opsi = scan.nextInt();
+			scan.nextLine();
+			 // hilangkan newline
+			if (opsi != 1 && opsi != 2) {
+				System.out.println("Tolong masukkan opsi yang valid");
+			}
+		}while(opsi != 1 && opsi != 2);
+		if (opsi == 1) {
+			writePolinom(arr);
+		}
+		
+		
+		
+		
+	}
 	
 	// opsi untuk determinan
 	public static void opsiSaveFile(double k) {
@@ -180,6 +202,10 @@ public class FileInputOutput {
 				System.out.println("Tolong masukkan opsi yang valid");
 			}
 		}while(opsi != 1 && opsi != 2);
+
+		if (opsi == 1){
+			writeMatrixInverse(mInv);
+		}
 		
 		
 		
@@ -215,10 +241,49 @@ public class FileInputOutput {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+
+		// 
 		
 	
 		
 	}
+		public static void writePolinom(String[] arr) {
+		
+		File file = null;
+		// save di output
+		do {
+			System.out.print("Masukkan nama file bersama extension .txt : ");
+			
+			String name_file =  scan.nextLine();
+			String path = System.getProperty("user.dir");
+			path += "\\test\\Output\\" +name_file;
+			file = new File(path);
+			if (file.exists()) {
+				System.out.println("File tersebut sudah ada !, tolong masukkan nama file ulang");
+			}
+			
+		}
+		while (file.exists());
+		try {
+			PrintWriter pw = new PrintWriter(file);
+			for (int i = 0 ; i < arr.length ; ++i) {
+				pw.printf("%s\n",arr[i]);
+			}
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+		// 
+		
+	
+		
+	}
+
+	
 	
 	public static void writeDeterminan(double k) {
 		
@@ -271,7 +336,7 @@ public class FileInputOutput {
 			PrintWriter pw = new PrintWriter(file);
 			for (int row = 0 ; row < mat.getRow() ; ++row) {
 				for (int col = 0 ; col < mat.getRow() ; ++col) {
-					pw.print(mat.getElmt(row, col));
+					pw.print(mat.getElmt(row, col) + " ");
 					if (col == mat.getLastIdxCol()) {
 						pw.print("\n");
 					}
