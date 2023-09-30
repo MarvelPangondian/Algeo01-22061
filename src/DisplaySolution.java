@@ -183,7 +183,8 @@ public class DisplaySolution {
 	
 	// display hasil determinan
 	public static void displayDeterminan(double det) {
-		System.out.printf("Determinan  = %f",det);
+		
+		System.out.printf("Determinan  = %f\n",DisplaySolution.dformat(det));
 		FileInputOutput.opsiSaveFile(det);
 		
 	}

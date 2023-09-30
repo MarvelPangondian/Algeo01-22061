@@ -310,6 +310,85 @@ public class Main {
 		}
 	}
 	
+	public static void menuDeterminan() throws IOException {
+		System.out.println("=============== Menu Determinan Matriks ===============");
+		int pilihan;
+		System.out.println("Pilih metode metode mencari determinan matriks : ");
+		do {	
+		
+		System.out.println("1.Metode reduksi baris");
+		System.out.println("2.Metode ekspansi kofaktor");
+		System.out.print("Pilih metode :");
+		pilihan = scan.nextInt();
+		if (pilihan != 1 && pilihan != 2) {
+			System.out.println("Pilihan anda salah, tolong pilih ulang!");
+		}
+		}while(pilihan != 1 && pilihan !=2);
+		
+		if (pilihan == 1) {
+			System.out.println("=============== Metode reduksi baris ===============");
+			inputType();
+			System.out.print("Masukkan pilihan :");
+			int input_choice = scan.nextInt();
+			scan.nextLine();
+			switch (input_choice) {
+				case 1 ://keyboard
+					System.out.print("Masukkan N :");
+					int n = scan.nextInt();
+					Matrix mat = new Matrix(n,n);
+					System.out.println("Input matrix :");
+					mat.readMatrix();
+					double det = Matrix.determinanReduksi(mat);
+					DisplaySolution.displayDeterminan(det);
+					break;
+				case 2://input text
+					Matrix mat2 = FileInputOutput.readFileMatrix();
+					if (!Matrix.isPersegi(mat2)) {
+						System.out.println("Matrix tidak persegi !, determinan matrix tidak dapat ditemukan");
+						
+						
+					}
+					else {
+						double det2 = Matrix.determinanReduksi(mat2);
+						DisplaySolution.displayDeterminan(det2);
+					}
+					break;
+			}
+			
+		}
+		else {
+			System.out.println("=============== Metode Ekspansi Kofaktor ===============");
+			inputType();
+			System.out.print("Masukkan pilihan :");
+			int input_choice = scan.nextInt();
+			scan.nextLine();
+			switch (input_choice) {
+				case 1 ://keyboard
+					System.out.print("Masukkan N :");
+					int n = scan.nextInt();
+					Matrix mat = new Matrix(n,n);
+					System.out.println("Input matrix : ");
+					mat.readMatrix();
+					double det = Matrix.determinanEkspansiKofaktor(mat);
+					DisplaySolution.displayDeterminan(det);
+					break;
+				case 2://input text
+					Matrix mat2 = FileInputOutput.readFileMatrix();
+					if (!Matrix.isPersegi(mat2)) {
+						System.out.println("Matrix tidak persegi !, determinan matrix tidak dapat ditemukan");
+						
+						
+					}
+					else {
+						double det2 = Matrix.determinanEkspansiKofaktor(mat2);
+						DisplaySolution.displayDeterminan(det2);
+					}
+					break;
+			}
+			
+		}
+	
+	}
 	
 	public static void main(String[] args) throws IOException  {
 		
@@ -324,6 +403,9 @@ public class Main {
 			switch (menu_choice) {
 				case 1 : // SPL
 					menuSPL();
+					break;
+				case 2:
+					menuDeterminan();
 					break;
 				case 3:
 					menuMatriksBalikan();
