@@ -182,6 +182,11 @@ public class FileInputOutput {
 				System.out.println("Tolong masukkan opsi yang valid");
 			}
 		}while(opsi != 1 && opsi != 2);
+		
+		if (opsi == 1) {
+			writeDeterminan(k);
+			
+		}
 	
 		
 		
@@ -304,7 +309,7 @@ public class FileInputOutput {
 		while (file.exists());
 		try {
 			PrintWriter pw = new PrintWriter(file);
-			pw.print(k);
+			pw.print(DisplaySolution.dformat(k));
 			pw.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
