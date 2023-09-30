@@ -75,6 +75,16 @@ public class Matrix {
 		return matOut;
 		
 	}
+
+	public Matrix copyMatrixCustom(int sRow, int sCol, int fRow, int fCol){
+		Matrix mOut = new Matrix(fRow, fCol);
+		for (row = 0 ; row < mOut.getRow() ; ++row) {
+			for (col = 0 ; col < mOut.getCol() ; ++col) {
+				mOut.setElmt(row, col, this.getElmt(row+sRow, col+sCol));
+			}
+		}
+		return mOut;
+	}
 	
 	public void displayMatrix() {
 		int r,c;

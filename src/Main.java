@@ -194,6 +194,121 @@ public class Main {
 		
 		
 	}
+
+	public static void menuMatriksBalikan() throws IOException{
+		int sub_menu_choice, input_choice;
+		subMenuMatriksBalikan();
+		System.out.print("Masukkan pilihan : ");
+		sub_menu_choice = scan.nextInt();
+		scan.nextLine();
+		switch(sub_menu_choice){
+			case 1: // Gauss Jordan
+				System.out.println("=============== Metode Gauss Jordan ===============");
+				inputType();
+				System.out.print("Masukkan pilihan : ");
+				input_choice = scan.nextInt();
+				scan.nextLine();
+				switch(input_choice){
+					case 1:
+						int row,col;
+						System.out.print("Banyak baris : ");
+						row = scan.nextInt();
+						System.out.print("Banyak kolom : ");
+						col = scan.nextInt();
+						scan.nextLine();
+						Matrix inverseMatrix = new Matrix(row,col);
+						System.out.println("Input matriks : ");
+						inverseMatrix.readMatrix();
+						inverseMatrix = Matrix.inversGaussJordan(inverseMatrix);
+						inverseMatrix.displayMatrix();
+						FileInputOutput.opsiSaveFile(inverseMatrix);
+						break;
+					case 2:
+						Matrix inverseMatriks = FileInputOutput.readFileMatrix();
+						inverseMatriks = Matrix.inversGaussJordan(inverseMatriks);
+						inverseMatriks.displayMatrix();
+						FileInputOutput.opsiSaveFile(inverseMatriks);
+						break;
+				}
+				break;
+			case 2: // Adjoint
+				System.out.println("=============== Metode Adjoint ===============");
+				inputType();
+				System.out.print("Masukkan pilihan : ");
+				input_choice = scan.nextInt();
+				scan.nextLine();
+				switch(input_choice){
+					case 1:
+						int row,col;
+						System.out.print("Banyak baris : ");
+						row = scan.nextInt();
+						System.out.print("Banyak kolom : ");
+						col = scan.nextInt();
+						scan.nextLine();
+						Matrix inverseMatrix = new Matrix(row,col);
+						System.out.println("Input matriks : ");
+						inverseMatrix.readMatrix();
+						inverseMatrix = Matrix.getMatrixInverseAdjoin(inverseMatrix);
+						inverseMatrix.displayMatrix();
+						FileInputOutput.opsiSaveFile(inverseMatrix);
+						break;
+					case 2:
+						Matrix inverseMatriks = FileInputOutput.readFileMatrix();
+						inverseMatriks = Matrix.getMatrixInverseAdjoin(inverseMatriks);
+						inverseMatriks.displayMatrix();
+						FileInputOutput.opsiSaveFile(inverseMatriks);
+						break;
+				}
+				break;
+		}
+	}
+
+	public static void menuInterpolasiPolinom() throws IOException{
+		int input_choice;
+		System.out.println("=============== MENU INTERPOLASI POLINOM ===============");
+		inputType();
+		System.out.print("Masukkan pilihan : ");
+		input_choice = scan.nextInt();
+		scan.nextLine();
+		switch(input_choice){
+			case 1: // Input keyboard
+				int n;
+				System.out.print("Banyak Point : ");
+				n = scan.nextInt();
+				scan.nextLine();
+				Matrix pointMatrix = new Matrix(n,2);
+				pointMatrix.readMatrix();
+				Matrix linEqMatrix = Polinom.createLinearEq(pointMatrix);
+				Matrix solution = Polinom.getPolinomSol(linEqMatrix);
+				String equation = Polinom.getPolinomEq(solution);
+				String eqString = String.format("Persamaan interpolasi polinom tersebut adalah : %s", equation );
+				System.out.println(eqString);
+				System.out.println("Masukkan nilai x yang ingin ditaksir : ");
+				double x = scan.nextDouble();
+				double taksiran = Polinom.getTaksiran(solution, x);
+				String strTaksiran = String.format("Taksiran f(%f) = %f", x, taksiran);
+				System.out.println(strTaksiran);
+				String[]arrstr = new String[]{eqString,strTaksiran};
+				FileInputOutput.opsiSaveFilePolinom(arrstr);
+				break;
+			case 2: // Input file
+				Matrix matrixFile = FileInputOutput.readFileMatrix();
+				Matrix poinMatrix = matrixFile.copyMatrix();
+				poinMatrix.copyMatrixCustom(0,0,matrixFile.getRow()-1,matrixFile.getCol());
+				double eks = matrixFile.getElmt(matrixFile.getRow()-1, 0);
+				Matrix linEqMatriks = Polinom.createLinearEq(poinMatrix);
+				Matrix sol = Polinom.getPolinomSol(linEqMatriks);
+				String eq = Polinom.getPolinomEq(sol);
+				String eqStr = String.format("Persamaan interpolasi polinom tersebut adalah : %s", eq);
+				System.out.println(eqStr);
+				double estimate = Polinom.getTaksiran(sol, eks);
+				String strEstimate = String.format("Taksiran f(%f) = %f", eks, estimate);
+				System.out.println(strEstimate);
+				String[] arr = new String[]{eqStr,strEstimate};
+				FileInputOutput.opsiSaveFilePolinom(arr);
+				break;
+		}
+	}
 	
 	
 	public static void main(String[] args) throws IOException  {
@@ -209,6 +324,12 @@ public class Main {
 			switch (menu_choice) {
 				case 1 : // SPL
 					menuSPL();
+					break;
+				case 3:
+					menuMatriksBalikan();
+					break;
+				case 4:
+					menuInterpolasiPolinom();
 					break;
 				default :
 					menu_choice = 7;
