@@ -390,6 +390,62 @@ public class Main {
 	
 	}
 
+	public static void menuBicubic() throws IOException {
+
+		double x,y;
+		int input_choice;
+		System.out.println("=============== Interpolasi Bicubic Spline ===============");
+		do {
+			inputType();
+			System.out.print("Masukkan pilihan : ");
+			input_choice = scan.nextInt();
+			scan.nextLine();
+			switch (input_choice) {
+				case 1://keyboard-bicubic
+					int row, col;
+					row = 4;
+					col = 4;
+					Matrix mat = new Matrix(row, col);
+					System.out.println("Input matriks berukuran 4x4: ");
+					mat.readMatrix();
+					System.out.println("Input Titik (x,y) yang ingin ditaksir nilainya");
+					System.out.print("x : ");
+					x = scan.nextDouble();
+					scan.nextLine();
+					System.out.print("y : ");
+					y = scan.nextDouble();
+					scan.nextLine();
+					Matrix msolved = new Matrix(16, 1);
+					msolved = BicubicSpline.solveBicubic(mat);
+					double taksiran = BicubicSpline.getTaksiranBicubic(msolved, x, y);
+					System.out.printf("f(%f,%f) = %f\n", x, y, taksiran);
+					FileInputOutput.opsiSaveFile(taksiran);
+					break;
+
+				case 2://file bicubic
+					int i, j;
+					Matrix m_input = FileInputOutput.readFileMatrix();
+
+					Matrix mIn = new Matrix(m_input.getRow() - 1, m_input.getCol());
+					for (i = 0; i < mIn.getRow(); i++) {
+						for (j = 0; j < mIn.getCol(); j++) {
+							mIn.setElmt(i, j, m_input.getElmt(i, j));
+						}
+					}
+					x = m_input.getElmt(4, 0);
+					y = m_input.getElmt(4, 1);
+					Matrix mfile_solved = new Matrix(16,1);
+					mfile_solved = BicubicSpline.solveBicubic(mIn);
+					double file_taksiran = BicubicSpline.getTaksiranBicubic(mfile_solved, x, y);
+					System.out.printf("f(%f,%f) = %f\n", x, y, file_taksiran);
+					FileInputOutput.opsiSaveFile(file_taksiran);
+					break;
+				default:
+					System.out.println("Input tidak valid, silakan ulangi");
+			}
+		} while (input_choice != 1 && input_choice != 2);
+	}
+
 	public static void menuRegresi() throws IOException{
 		int input_choice, nVar, nData, i, j;
 		String strEq, strTaksiran;
@@ -475,22 +531,15 @@ public class Main {
 				case 4:
 					menuInterpolasiPolinom();
 					break;
+				case 5:
+					menuBicubic();
+					break;
 				case 6:
 					menuRegresi();
 					break;
 				default :
 					menu_choice = 7;
-					
-					
-
 			}
-			
-			
 		}while(menu_choice != 7);
-		
-		
-		
-		
 	}
-
 }
