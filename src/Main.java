@@ -389,6 +389,68 @@ public class Main {
 		}
 	
 	}
+
+	public static void menuRegresi() throws IOException{
+		int input_choice, nVar, nData, i, j;
+		String strEq, strTaksiran;
+		System.out.println("=============== Regresi Linier Berganda ===============");
+		do {
+			inputType();
+			System.out.print("Masukkan pilihan : ");
+			input_choice = scan.nextInt();
+			scan.nextLine();
+			switch (input_choice) {
+				case 1://keyboard-regresi
+					System.out.print("Masukkan banyaknya variabel: ");
+					nVar = scan.nextInt();
+					scan.nextLine();
+					double[]arrVarVal = new double[nVar];
+					System.out.print("Masukkan banyaknya data: ");
+					nData = scan.nextInt();
+					scan.nextLine();
+					Matrix m_aug = new Matrix(nData, nVar+1);
+					System.out.println("Input Matriks (dalam bentuk Matriks Augmented): ");
+					m_aug.readMatrix();
+					System.out.println("Masukkan nilai setiap variabel yang ingin ditaksir nilainya");
+					for(i=0;i<nVar;i++){
+						System.out.printf("x%d : ",i+1);
+						arrVarVal[i] = scan.nextDouble();
+						scan.nextLine();
+					}
+					Matrix m_solved = new Matrix(m_aug.getRow(), 1);
+					m_solved = Regresi.solveRegresi(m_aug);
+					strEq = Regresi.getRegresiEq(m_solved);
+					System.out.printf("Persamaan Regresi Linear Berganda:\n%s\n", strEq);
+					strTaksiran = Regresi.getStrTaksiran(m_solved, arrVarVal);
+					System.out.println(strTaksiran);
+					String[]arrStrOut = new String[]{strEq,strTaksiran};
+					FileInputOutput.opsiSaveFile(arrStrOut);
+					break;
+
+				case 2://file regresi
+					Matrix m_input = FileInputOutput.readFileMatrix();
+					Matrix mfile_aug = new Matrix((m_input.getRow()-1), m_input.getCol());
+					for(i=0;i< mfile_aug.getRow();i++){
+						for(j=0;j< mfile_aug.getCol();j++){
+							mfile_aug.setElmt(i,j,m_input.getElmt(i,j));
+						}
+					}
+					double[]arrVarValFile = new double[mfile_aug.getCol()-1];
+					Matrix mfile_solved = new Matrix(mfile_aug.getRow(), 1);
+					mfile_solved = Regresi.solveRegresi(mfile_aug);
+					strEq = Regresi.getRegresiEq(mfile_solved);
+					System.out.printf("Persamaan Regresi Linear Berganda:\n%s\n", strEq);
+					strTaksiran = Regresi.getStrTaksiran(mfile_solved, arrVarValFile);
+					System.out.println(strTaksiran);
+					String[]arrStrOutFile = new String[]{strEq,strTaksiran};
+					FileInputOutput.opsiSaveFile(arrStrOutFile);
+					break;
+				default:
+					System.out.println("Input tidak valid, silakan ulangi");
+			}
+		} while (input_choice != 1 && input_choice != 2);
+
+	}
 	
 	public static void main(String[] args) throws IOException  {
 		
@@ -412,6 +474,9 @@ public class Main {
 					break;
 				case 4:
 					menuInterpolasiPolinom();
+					break;
+				case 6:
+					menuRegresi();
 					break;
 				default :
 					menu_choice = 7;
