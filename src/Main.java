@@ -33,7 +33,7 @@ public class Main {
 					MenuIO.menuRegresi();
 					break;
 				default :
-					menu_choice = 7;
+					System.out.printf("Input tidak valid, silakan ulangi");
 			}
 		}while(menu_choice != 7);
 	}
