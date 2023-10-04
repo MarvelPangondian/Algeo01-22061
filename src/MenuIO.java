@@ -143,14 +143,18 @@ public class MenuIO {
 
                         break;
                     case 2://file-SPLbalikan
+                    	double zero = 0;
                         Matrix mat2 = FileInputOutput.readFileMatrix();
                         if (!Matrix.isPersegi(Matrix.getMatrixCoefficient(mat2))) {
                             System.out.println("Matrix tidak persegi !");
                         }
-                        else if (   Double.compare(Matrix.determinanEkspansiKofaktor(Matrix.getMatrixCoefficient(mat2)), 0.0) == 0  ) {
+                        else if (Double.compare(Matrix.determinanEkspansiKofaktor(Matrix.getMatrixCoefficient(mat2)), zero) == 0  ) {
                             System.out.println("Matriks tidak memiliki inverse (determinan kosong)");
                         }
                         else {
+                        	
+              
+                        	
                             Matrix SPLinv2 = SPL.splInverse(mat2);
                             DisplaySolution.displaySPLbalikan(SPLinv2);
                         }

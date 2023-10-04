@@ -1,2 +1,0 @@
-x1 = Persamaan interpolasi polinom tersebut adalah : f(x) = 0.330697 - 5.495880x^1 + 27.488642x^2 - 59.200781x^3 + 65.586589x^4 - 36.117188x^5 + 7.851563x^6 
-x2 = Taksiran f(0.200000) = -0.048656

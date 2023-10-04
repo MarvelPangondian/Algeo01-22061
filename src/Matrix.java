@@ -408,7 +408,14 @@ public class Matrix {
 			}
 		}
 	}
-	
+	public void dfMat2() {
+		
+		for (int row = 0 ; row < this.getRow() ; row++) {
+			for (int col = 0 ; col < this.getCol() ; col++) {
+				this.setElmt(row, col, DisplaySolution.dformat2(this.getElmt(row, col)));
+			}
+		}
+	}
 	public static boolean isMarkMat(Matrix mIn) {
 		boolean state = true;
 		final double mark = 9999;

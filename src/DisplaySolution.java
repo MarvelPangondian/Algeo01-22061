@@ -87,7 +87,7 @@ public class DisplaySolution {
 				var_solution[i] = "";
 				if (exact_value[i] != mark) {
 		
-					var_solution[i] += exact_value[i];
+					var_solution[i] += dformat2(exact_value[i]); ////////////CHANGE
 				}
 				else if (allParametric[i] == 0) {
 					var_solution[i] += Alphabet[i];
@@ -95,7 +95,7 @@ public class DisplaySolution {
 				else {
 					var_solution[i] = "";
 					if (arr_const[i] != 0) {
-						var_solution[i] += arr_const[i];
+						var_solution[i] += dformat2(arr_const[i]);
 					}
 					
 					for (int j = 0 ; j < mGauss.getCol()-1 ; j++) {
@@ -121,7 +121,7 @@ public class DisplaySolution {
 							 		 var_solution[i] += ""+  Alphabet[j];
 							 	}
 							 	else {
-							 		var_solution[i] += ""+ Math.abs(value_variable[i][j]) + Alphabet[j];
+							 		var_solution[i] += ""+ Math.abs(dformat2(value_variable[i][j])) + Alphabet[j];
 							 	}
 						}			
 					}
@@ -159,8 +159,8 @@ public class DisplaySolution {
 		else {
 			String[] var_solution = new String[mat_Cramer.getRow()];
 			for (int i = 0 ; i < mat_Cramer.getRow() ; ++i) {
-				System.out.printf("x%d = %f\n",i+1,mat_Cramer.getElmt(i, 0));
-				var_solution[i] = "" + mat_Cramer.getElmt(i, 0);
+				System.out.printf("x%d = %.4f\n",i+1,dformat2(mat_Cramer.getElmt(i, 0)));
+				var_solution[i] = "" + dformat2(mat_Cramer.getElmt(i, 0));
 			}
 			FileInputOutput.opsiSaveFile(var_solution);
 			
@@ -171,23 +171,32 @@ public class DisplaySolution {
 	
 	// Display hasil SPL matriks balikan
 	public static void displaySPLbalikan(Matrix mat_SPL_balikan) {
+		double mark = 9999;
 		// input sudah melalui proses SPLbalikan
-		mat_SPL_balikan.dfMat();
-		for (int i = 0 ; i < mat_SPL_balikan.getRow(); i++) {
-			System.out.printf("x%d = %f\n",i+1,mat_SPL_balikan.getElmt(i, 0));
+		mat_SPL_balikan.dfMat();// rounding, prevent -0.0
+		mat_SPL_balikan.dfMat2();
+		
+		if ( Double.compare(mat_SPL_balikan.getElmt(0, 0), mark) == 0  ) {
+			System.out.println("Metode matriks balikan tidak dapat dilakukan");
 		}
-		String[] var_solution = new String[mat_SPL_balikan.getRow()];
-		for (int i = 0 ; i < mat_SPL_balikan.getRow() ; ++i) {
-			var_solution[i] = "" + mat_SPL_balikan.getElmt(i, 0);
+		else {
+			for (int i = 0 ; i < mat_SPL_balikan.getRow(); i++) {
+				System.out.printf("x%d = %.4f\n",i+1,dformat2(mat_SPL_balikan.getElmt(i, 0)));
+			}
+			String[] var_solution = new String[mat_SPL_balikan.getRow()];
+			for (int i = 0 ; i < mat_SPL_balikan.getRow() ; ++i) {
+				var_solution[i] = "" + dformat2(mat_SPL_balikan.getElmt(i, 0));
+			}
+			FileInputOutput.opsiSaveFile(var_solution);
 		}
-		FileInputOutput.opsiSaveFile(var_solution);
+
 		
 	}
 	
 	// display hasil determinan
 	public static void displayDeterminan(double det) {
 		
-		System.out.printf("Determinan  = %f\n",DisplaySolution.dformat(det));
+		System.out.printf("Determinan  = %.4f\n",dformat2(DisplaySolution.dformat(det)));
 		FileInputOutput.opsiSaveFile(det);
 		
 	}
@@ -198,6 +207,7 @@ public class DisplaySolution {
 	
 		if (Matrix.isPersegi(matInv) && !Matrix.isMarkMat(matInv) ) {
 			matInv.dfMat();
+			matInv.dfMat2();
 			
 			matInv.displayMatrix();
 			FileInputOutput.opsiSaveFile(matInv);
@@ -221,7 +231,22 @@ public class DisplaySolution {
 	}
 	
 	// untuk rounding 
-	public static double dformat(double num) {
+	
+	public static boolean checkZero(double num) {
+		double zero = 0;
+		return Double.compare(Math.abs(num), zero) == 0;
+		
+	}
+	public static double dformat(double num) { // kasus nilai 0 negatif
+		if (checkZero(num)) {
+			return Math.abs(num);
+		}
+		else {
+			return num;
+		}
+		
+	}
+	public static double dformat2(double num) {
 		return Math.round(num * Math.pow(10, 4))/ Math.pow(10, 4);
 	}
 	
