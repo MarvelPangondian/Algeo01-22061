@@ -218,14 +218,12 @@ public class MenuIO {
                         System.out.println("Input matriks : ");
                         inverseMatrix.readMatrix();
                         inverseMatrix = Matrix.inversGaussJordan(inverseMatrix);
-                        inverseMatrix.displayMatrix();
-                        FileInputOutput.opsiSaveFile(inverseMatrix);
+                        DisplaySolution.displayMatriksInverse(inverseMatrix);
                         break;
                     case 2:
                         Matrix inverseMatriks = FileInputOutput.readFileMatrix();
                         inverseMatriks = Matrix.inversGaussJordan(inverseMatriks);
-                        inverseMatriks.displayMatrix();
-                        FileInputOutput.opsiSaveFile(inverseMatriks);
+                        DisplaySolution.displayMatriksInverse(inverseMatriks);
                         break;
                 }
                 break;
@@ -247,14 +245,12 @@ public class MenuIO {
                         System.out.println("Input matriks : ");
                         inverseMatrix.readMatrix();
                         inverseMatrix = Matrix.getMatrixInverseAdjoin(inverseMatrix);
-                        inverseMatrix.displayMatrix();
-                        FileInputOutput.opsiSaveFile(inverseMatrix);
+                        DisplaySolution.displayMatriksInverse(inverseMatrix);
                         break;
                     case 2:
                         Matrix inverseMatriks = FileInputOutput.readFileMatrix();
                         inverseMatriks = Matrix.getMatrixInverseAdjoin(inverseMatriks);
-                        inverseMatriks.displayMatrix();
-                        FileInputOutput.opsiSaveFile(inverseMatriks);
+                        DisplaySolution.displayMatriksInverse(inverseMatriks);
                         break;
                 }
                 break;
@@ -308,10 +304,11 @@ public class MenuIO {
         }
     }
 
-    public static void menuDeterminan() throws IOException {
+    public static void menuDeterminan	() throws IOException {
         System.out.println("=============== Menu Determinan Matriks ===============");
         int pilihan;
         System.out.println("Pilih metode metode mencari determinan matriks : ");
+        
         do {
 
             System.out.println("1.Metode reduksi baris");

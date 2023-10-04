@@ -7,6 +7,7 @@ public class DisplaySolution {
 
 	// Display hasil SPL gauss jordan
 	public static void displayGauss(Matrix mGauss) {
+		mGauss.dfMat();
 		if (mGauss.solvable) {
 			int[] allParametric = new int[mGauss.getCol()-1];
 			for (int c = 0 ; c < allParametric.length ; ++c) {
@@ -150,6 +151,7 @@ public class DisplaySolution {
 	//Display hasil SPL metode cramer
 	public static void displayCramer(Matrix mat_Cramer) {
 		// Matrix input dalam cramer
+		mat_Cramer.dfMat();
 		double x = -9999;
 		if (Double.compare(mat_Cramer.getElmt(0, 0)   , x) == 0    )  {
 			System.out.println("Metode cramer tidak dapat dilakukan");
@@ -170,6 +172,7 @@ public class DisplaySolution {
 	// Display hasil SPL matriks balikan
 	public static void displaySPLbalikan(Matrix mat_SPL_balikan) {
 		// input sudah melalui proses SPLbalikan
+		mat_SPL_balikan.dfMat();
 		for (int i = 0 ; i < mat_SPL_balikan.getRow(); i++) {
 			System.out.printf("x%d = %f\n",i+1,mat_SPL_balikan.getElmt(i, 0));
 		}
@@ -191,8 +194,19 @@ public class DisplaySolution {
 	
 	// displaty hasil matriks inverse
 	public static void displayMatriksInverse(Matrix matInv) {
-		matInv.displayMatrix();
-		FileInputOutput.opsiSaveFile(matInv);
+	
+	
+		if (Matrix.isPersegi(matInv) && !Matrix.isMarkMat(matInv) ) {
+			matInv.dfMat();
+			
+			matInv.displayMatrix();
+			FileInputOutput.opsiSaveFile(matInv);
+			
+		}
+		else {
+			System.out.println("Matriks balikan tidak dapat dilakukan");
+		}
+
 	}
 	
 	public static boolean allZero(double[] arr) {
@@ -208,6 +222,9 @@ public class DisplaySolution {
 	
 	// untuk rounding 
 	public static double dformat(double num) {
-		return Math.round(num * Math.pow(10, 5))/ Math.pow(10, 5);
+		return Math.round(num * Math.pow(10, 4))/ Math.pow(10, 4);
 	}
+	
+	
 }
+
