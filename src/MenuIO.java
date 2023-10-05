@@ -8,7 +8,7 @@ public class MenuIO {
 
     public static void mainMenu() {
         System.out.println("=============== Kalkulator Matrix ===============");
-        System.out.println("=============== Main Menu ===============");
+        System.out.println("=============== Main Menu =======================");
         System.out.println("1.Sistem Persamaaan Linier");
         System.out.println("2.Determinan");
         System.out.println("3.Matriks balikan");
@@ -20,7 +20,7 @@ public class MenuIO {
     }
 
     public static void subMenuSPL() {
-        System.out.println("=============== Sub-Menu ===============");
+        System.out.println("=============== Sub-Menu ========================");
         System.out.println("1.Metode eliminasi Gauss");
         System.out.println("2.Metode eliminasi Gauss-Jordan");
         System.out.println("3.Metode matriks balikan");
@@ -28,19 +28,19 @@ public class MenuIO {
     }
 
     public static void subMenuDeterminan() {
-        System.out.println("=============== Sub-Menu ===============");
+        System.out.println("=================== Sub-Menu ====================");
         System.out.println("1.Metode OBE");
         System.out.println("2.Metode Ekspansi Kofaktor");
 
     }
 
     public static void subMenuMatriksBalikan() {
-        System.out.println("=============== Sub-Menu ===============");
+        System.out.println("=================== Sub-Menu ====================");
         System.out.println("1.Metode Gauss Jordan");
         System.out.println("2.Metode Adjoint");
     }
     public static void inputType() {
-        System.out.println("=============== Metode Input ===============");
+        System.out.println("================= Metode Input ==================");
         System.out.println("1.Keyboard");
         System.out.println("2.File txt");
     }
@@ -55,7 +55,7 @@ public class MenuIO {
 
         switch(sub_menu_choice) {
             case 1: // gauss
-                System.out.println("=============== Metode Eliminasi Gauss ===============");
+                System.out.println("============== Metode Eliminasi Gauss ===========");
                 inputType();
                 System.out.print("Masukkan pilihan : ");
                 input_choice = scan.nextInt();
@@ -84,7 +84,7 @@ public class MenuIO {
                 }
                 break;
             case 2 :
-                System.out.println("=============== Metode Eliminasi Gauss-jordan ===============");
+                System.out.println("======== Metode Eliminasi Gauss-jordan ==========");
                 inputType();
                 System.out.print("Masukkan pilihan : ");
                 input_choice = scan.nextInt();
@@ -113,7 +113,7 @@ public class MenuIO {
                 }
                 break;
             case 3: // metode matriks balikan
-                System.out.println("=============== Metode Matriks Balikan ===============");
+                System.out.println("============= Metode Matriks Balikan ============");
                 inputType();
                 System.out.print("Masukkan pilihan : ");
                 input_choice = scan.nextInt();
@@ -129,6 +129,7 @@ public class MenuIO {
                         Matrix mat = new Matrix(row,col);
                         System.out.println("Input matriks : ");
                         mat.readMatrix();
+                        
 
                         if (!Matrix.isPersegi(Matrix.getMatrixCoefficient(mat))) {
                             System.out.println("Matrix tidak persegi !");
@@ -143,14 +144,18 @@ public class MenuIO {
 
                         break;
                     case 2://file-SPLbalikan
+                    	double zero = 0;
                         Matrix mat2 = FileInputOutput.readFileMatrix();
                         if (!Matrix.isPersegi(Matrix.getMatrixCoefficient(mat2))) {
                             System.out.println("Matrix tidak persegi !");
                         }
-                        else if (   Double.compare(Matrix.determinanEkspansiKofaktor(Matrix.getMatrixCoefficient(mat2)), 0.0) == 0  ) {
+                        else if (Double.compare(Matrix.determinanEkspansiKofaktor(Matrix.getMatrixCoefficient(mat2)), zero) == 0  ) {
                             System.out.println("Matriks tidak memiliki inverse (determinan kosong)");
                         }
                         else {
+                        	
+              
+                        	
                             Matrix SPLinv2 = SPL.splInverse(mat2);
                             DisplaySolution.displaySPLbalikan(SPLinv2);
                         }
@@ -160,7 +165,7 @@ public class MenuIO {
                 }
                 break;
             case 4:
-                System.out.println("=============== Metode Cramer ===============");
+                System.out.println("================= Metode Cramer =================");
                 inputType();
                 System.out.print("Masukkan pilihan : ");
                 input_choice = scan.nextInt();
@@ -180,8 +185,14 @@ public class MenuIO {
                         break;
                     case 2://file-cramer
                         Matrix mat2 = FileInputOutput.readFileMatrix();
-                        Matrix Cramer2 = SPL.cramerMethod(mat2);
-                        DisplaySolution.displayCramer(Cramer2);
+                        if (Matrix.isPersegi(Matrix.getMatrixCoefficient(mat2))) {
+                        	Matrix Cramer2 = SPL.cramerMethod(mat2);
+                            DisplaySolution.displayCramer(Cramer2);
+                        	
+                        }
+                        else {
+                        	System.out.println("Matriks tidak persegi !");
+                        }
                         break;
 
 
@@ -201,7 +212,7 @@ public class MenuIO {
         scan.nextLine();
         switch(sub_menu_choice){
             case 1: // Gauss Jordan
-                System.out.println("=============== Metode Gauss Jordan ===============");
+                System.out.println("============== Metode Gauss Jordan ==============");
                 inputType();
                 System.out.print("Masukkan pilihan : ");
                 input_choice = scan.nextInt();
@@ -209,24 +220,36 @@ public class MenuIO {
                 switch(input_choice){
                     case 1:
                         int row,col;
-                        System.out.print("Banyak baris : ");
-                        row = scan.nextInt();
-                        System.out.print("Banyak kolom : ");
-                        col = scan.nextInt();
-                        scan.nextLine();
+                        do {
+	                        System.out.print("Banyak baris : ");
+	                        row = scan.nextInt();
+	                        System.out.print("Banyak kolom : ");
+	                        col = scan.nextInt();
+	                        scan.nextLine();
+	                        if (row != col ) {
+	                        	System.out.println("Matriks tidak persegi !, tolong ulangi input");
+	                        }
+                        }while(row != col);
+                        
+                        
                         Matrix inverseMatrix = new Matrix(row,col);
                         System.out.println("Input matriks : ");
                         inverseMatrix.readMatrix();
                         inverseMatrix = Matrix.inversGaussJordan(inverseMatrix);
-                        inverseMatrix.displayMatrix();
-                        FileInputOutput.opsiSaveFile(inverseMatrix);
+                        DisplaySolution.displayMatriksInverse(inverseMatrix);
                         break;
                     case 2:
                         Matrix inverseMatriks = FileInputOutput.readFileMatrix();
-                        inverseMatriks = Matrix.inversGaussJordan(inverseMatriks);
-                        inverseMatriks.displayMatrix();
-                        FileInputOutput.opsiSaveFile(inverseMatriks);
-                        break;
+                        if (Matrix.isPersegi(inverseMatriks)) {
+                        	inverseMatriks = Matrix.inversGaussJordan(inverseMatriks);
+                            DisplaySolution.displayMatriksInverse(inverseMatriks);
+                            break;
+                        }
+                        else {
+                        	System.out.println("Matriks tidak persegi, sehingga tidak memiliki matriks balikan");
+                        	break;
+                        }
+                        
                 }
                 break;
             case 2: // Adjoint
@@ -237,24 +260,35 @@ public class MenuIO {
                 scan.nextLine();
                 switch(input_choice){
                     case 1:
-                        int row,col;
-                        System.out.print("Banyak baris : ");
-                        row = scan.nextInt();
-                        System.out.print("Banyak kolom : ");
-                        col = scan.nextInt();
-                        scan.nextLine();
+                    	int row,col;
+                    	do {
+	                    	System.out.print("Banyak baris : ");
+	                        row = scan.nextInt();
+	                        System.out.print("Banyak kolom : ");
+	                        col = scan.nextInt();
+	                        scan.nextLine();
+	                        if (row != col) {
+	                        	System.out.println("Matriks tidak persegi !, tolong ulangi input");
+	                        }
+                        }while(row != col);
+                        
+                        
                         Matrix inverseMatrix = new Matrix(row,col);
                         System.out.println("Input matriks : ");
                         inverseMatrix.readMatrix();
                         inverseMatrix = Matrix.getMatrixInverseAdjoin(inverseMatrix);
-                        inverseMatrix.displayMatrix();
-                        FileInputOutput.opsiSaveFile(inverseMatrix);
+                        DisplaySolution.displayMatriksInverse(inverseMatrix);
                         break;
                     case 2:
                         Matrix inverseMatriks = FileInputOutput.readFileMatrix();
-                        inverseMatriks = Matrix.getMatrixInverseAdjoin(inverseMatriks);
-                        inverseMatriks.displayMatrix();
-                        FileInputOutput.opsiSaveFile(inverseMatriks);
+                        if (Matrix.isPersegi(inverseMatriks)) {
+                        	 inverseMatriks = Matrix.getMatrixInverseAdjoin(inverseMatriks);
+                             DisplaySolution.displayMatriksInverse(inverseMatriks);
+                        }
+                        else {
+                        	System.out.println("Matriks tidak persegi, sehingga tidak memiliki matriks balikan");
+                        }
+                       
                         break;
                 }
                 break;
@@ -308,10 +342,11 @@ public class MenuIO {
         }
     }
 
-    public static void menuDeterminan() throws IOException {
-        System.out.println("=============== Menu Determinan Matriks ===============");
+    public static void menuDeterminan	() throws IOException {
+        System.out.println("============= Menu Determinan Matriks ============");
         int pilihan;
         System.out.println("Pilih metode metode mencari determinan matriks : ");
+        
         do {
 
             System.out.println("1.Metode reduksi baris");
@@ -324,21 +359,37 @@ public class MenuIO {
         }while(pilihan != 1 && pilihan !=2);
 
         if (pilihan == 1) {
-            System.out.println("=============== Metode reduksi baris ===============");
+            System.out.println("============== Metode reduksi baris ==============");
             inputType();
             System.out.print("Masukkan pilihan :");
             int input_choice = scan.nextInt();
             scan.nextLine();
             switch (input_choice) {
                 case 1 ://keyboard
-                    System.out.print("Masukkan N :");
-                    int n = scan.nextInt();
-                    Matrix mat = new Matrix(n,n);
-                    System.out.println("Input matrix :");
+                	int row,col;
+                	
+                	do {
+                		 System.out.print("Masukkan jumlah baris : ");
+                         row = scan.nextInt();
+                         System.out.print("Masukkan jumlah kolom : ");
+                         col  = scan.nextInt();
+                         if (row != col) {
+                        	 System.out.println("Matriks tidak persegi, tolong input ulang");
+                         }
+                         
+                	}while(row != col);
+                   
+                    
+                    
+                    Matrix mat = new Matrix(row,col);
+               	 	System.out.println("Input matrix :");
                     mat.readMatrix();
                     double det = Matrix.determinanReduksi(mat);
                     DisplaySolution.displayDeterminan(det);
                     break;
+                    
+                    
+                   
                 case 2://input text
                     Matrix mat2 = FileInputOutput.readFileMatrix();
                     if (!Matrix.isPersegi(mat2)) {
@@ -355,21 +406,32 @@ public class MenuIO {
 
         }
         else {
-            System.out.println("=============== Metode Ekspansi Kofaktor ===============");
+            System.out.println("============ Metode Ekspansi Kofaktor ============");
             inputType();
             System.out.print("Masukkan pilihan :");
             int input_choice = scan.nextInt();
             scan.nextLine();
             switch (input_choice) {
                 case 1 ://keyboard
-                    System.out.print("Masukkan N :");
-                    int n = scan.nextInt();
-                    Matrix mat = new Matrix(n,n);
+                	int row,col;
+                	do {
+                		System.out.print("Masukkan jumlah baris : ");
+                        row = scan.nextInt();
+                        System.out.print("Masukkan jumlah kolom : ");
+                        col = scan.nextInt();
+                        if (row != col) {
+                        	System.out.println("Matriks tidak persegi, tolong input kembali");
+                        }
+                	}while(row != col);
+                    
+                    
+                	Matrix mat = new Matrix(row,col);
                     System.out.println("Input matrix : ");
                     mat.readMatrix();
                     double det = Matrix.determinanEkspansiKofaktor(mat);
                     DisplaySolution.displayDeterminan(det);
                     break;
+                    
                 case 2://input text
                     Matrix mat2 = FileInputOutput.readFileMatrix();
                     if (!Matrix.isPersegi(mat2)) {

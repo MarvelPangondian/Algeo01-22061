@@ -37,7 +37,12 @@ public class Matrix {
 	public boolean isMatrixIdxValid(int r, int c) {
 		return (r >= 0 && r < this.getRow() && c >= 0 && c < this.getCol());
 	}
-	
+
+	public static boolean isDeterminantZero(Matrix mIn) {
+		double det = DisplaySolution.dformat(Matrix.determinanEkspansiKofaktor(mIn));
+		
+		return ( Double.compare(det, (double)0.0) == 0  );
+	}
 	public int getLastIdxRow() {
 		return this.row -1;
 	}
@@ -55,11 +60,29 @@ public class Matrix {
 	// Reader
 	public void readMatrix() {
 		int r,c;
-		for (r = 0 ; r < this.row ; ++r) {
-			for (c = 0 ; c < this.col ; ++c ) {
-				this.setElmt(r, c,scan.nextDouble());
+		boolean not_num;
+		
+		do {
+			not_num  = false;
+			for (r = 0 ; r < this.row ; ++r) {
+				for (c = 0 ; c < this.col ; ++c ) {
+					if (scan.hasNextDouble()) {
+						this.setElmt(r, c,scan.nextDouble());
+					}
+					else {
+						System.out.println("Input anda salah !, tolong ulangi dari awal");
+						not_num = true;
+						break;
+					}
+					
+					
+				}
+				if (not_num) {
+					scan.nextLine();
+					break;
+				}
 			}
-		}
+		}while(not_num);
 	}
 	
 	
@@ -295,6 +318,16 @@ public class Matrix {
 	
 	public static Matrix inversGaussJordan(Matrix mIn){
 		int i,j;
+		
+		if (Matrix.isDeterminantZero(mIn)) {
+			Matrix mOut = mIn.copyMatrix();
+			mOut.turnToMark();
+			return mOut;
+		}
+		if (mIn.getCol() == 1 && mIn.getRow() == 1) {
+			Matrix mOutOneByOne = mIn.copyMatrix();
+			mOutOneByOne.setElmt(0, 0, 1/mIn.getElmt(0, 0));
+		}
 		Matrix mIdentity = new Matrix(mIn.getRow(), mIn.getCol());
 		mIdentity.identityMatrix();
 		Matrix mKonkat = Matrix.konkatMatrix(mIn, mIdentity);
@@ -303,10 +336,11 @@ public class Matrix {
 		for(i = 0; i<mKonkat.getRow();i++) {
 			int currCol = 0;
 			for(j= mIn.getCol(); j<=mKonkat.getLastIdxCol();j++) {
-				mHasil.setElmt(i, currCol, mKonkat.getElmt(i,j));
+				mHasil.setElmt(i, currCol, DisplaySolution.dformat(mKonkat.getElmt(i,j)) );
 				currCol++;
 			}
 		}
+		
 		return mHasil;
 	}
 	
@@ -338,12 +372,63 @@ public class Matrix {
 		return mOut;
 	}
 	
+	public void turnToMark() {
+		final double mark = 9999;
+		for (int row = 0 ; row < this.getRow() ; ++row) {
+			for (int col = 0 ; col < this.getCol() ; ++col) {
+				this.setElmt(row, col,mark);
+			}
+		}
+	}	
 	public static Matrix getMatrixInverseAdjoin(Matrix mIn) {
 		double det = Matrix.determinanEkspansiKofaktor(mIn);
 		Matrix adjoin = Matrix.getMatrixtranspose(Matrix.getMatrixCofactor(mIn));
 		Matrix inverse = new Matrix(mIn.getRow(),mIn.getCol());
-		inverse = Matrix.matMultiplyByConst(adjoin, 1/det);
+		if (DisplaySolution.dformat(det) == 0.0) {
+			inverse.turnToMark();
+			
+		}
+		else {
+			if (inverse.getCol() == 1 && inverse.getRow() == 1) {
+				inverse.setElmt(0, 0, 1/mIn.getElmt(0, 0));
+			}
+			else {
+				inverse = Matrix.matMultiplyByConst(adjoin, 1/det);
+			}
+			
+		}
+		
 		return inverse;
+	}
+	
+	public void dfMat() {
+		
+		for (int row = 0 ; row < this.getRow() ; row++) {
+			for (int col = 0 ; col < this.getCol() ; col++) {
+				this.setElmt(row, col, DisplaySolution.dformat(this.getElmt(row, col)));
+			}
+		}
+	}
+	public void dfMat2() {
+		
+		for (int row = 0 ; row < this.getRow() ; row++) {
+			for (int col = 0 ; col < this.getCol() ; col++) {
+				this.setElmt(row, col, DisplaySolution.dformat2(this.getElmt(row, col)));
+			}
+		}
+	}
+	public static boolean isMarkMat(Matrix mIn) {
+		boolean state = true;
+		final double mark = 9999;
+		for (int row = 0 ; row < mIn.getRow() ; row++) {
+			for(int col = 0 ; col < mIn.getCol() ; col++) {
+				if ( !(Double.compare(mIn.getElmt(row, col), mark) == 0)) {
+					state = false;
+				}
+				
+			}
+		}
+		return state;
 	}
 	
 	
