@@ -39,7 +39,7 @@ public class Matrix {
 	}
 
 	public static boolean isDeterminantZero(Matrix mIn) {
-		double det = DisplaySolution.dformat(Matrix.determinanEkspansiKofaktor(mIn));
+		double det = DisplaySolution.dformat(Matrix.determinanReduksi(mIn));
 		
 		return ( Double.compare(det, (double)0.0) == 0  );
 	}
