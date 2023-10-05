@@ -552,6 +552,9 @@ public class MenuIO {
                         }
                     }
                     double[]arrVarValFile = new double[mfile_aug.getCol()-1];
+                    for(i=0;i<m_input.getCol()-1;i++){
+                        arrVarValFile[i] = m_input.getElmt(m_input.getRow()-1,i);
+                    }
                     Matrix mfile_solved = new Matrix(mfile_aug.getRow(), 1);
                     mfile_solved = Regresi.solveRegresi(mfile_aug);
                     strEq = Regresi.getRegresiEq(mfile_solved);
