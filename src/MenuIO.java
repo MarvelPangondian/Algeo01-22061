@@ -452,7 +452,6 @@ public class MenuIO {
 
     public static void menuBicubic() throws IOException {
 
-        double x,y;
         int input_choice;
         System.out.println("=============== Interpolasi Bicubic Spline ===============");
         do {
@@ -470,10 +469,10 @@ public class MenuIO {
                     mat.readMatrix();
                     System.out.println("Input Titik (x,y) yang ingin ditaksir nilainya");
                     System.out.print("x : ");
-                    x = scan.nextDouble();
+                    double x = scan.nextDouble();
                     scan.nextLine();
                     System.out.print("y : ");
-                    y = scan.nextDouble();
+                    double y = scan.nextDouble();
                     scan.nextLine();
                     Matrix msolved = new Matrix(16, 1);
                     msolved = BicubicSpline.solveBicubic(mat);
@@ -485,19 +484,18 @@ public class MenuIO {
                 case 2://file bicubic
                     int i, j;
                     Matrix m_input = FileInputOutput.readFileMatrix();
-
                     Matrix mIn = new Matrix(m_input.getRow() - 1, m_input.getCol());
                     for (i = 0; i < mIn.getRow(); i++) {
                         for (j = 0; j < mIn.getCol(); j++) {
                             mIn.setElmt(i, j, m_input.getElmt(i, j));
                         }
                     }
-                    x = m_input.getElmt(4, 0);
-                    y = m_input.getElmt(4, 1);
+                    double x_file = m_input.getElmt(4, 0);
+                    double y_file = m_input.getElmt(4, 1);
                     Matrix mfile_solved = new Matrix(16,1);
                     mfile_solved = BicubicSpline.solveBicubic(mIn);
-                    double file_taksiran = BicubicSpline.getTaksiranBicubic(mfile_solved, x, y);
-                    System.out.printf("f(%f,%f) = %f\n", x, y, file_taksiran);
+                    double file_taksiran = BicubicSpline.getTaksiranBicubic(mfile_solved, x_file, y_file);
+                    System.out.printf("f(%f,%f) = %f\n", x_file, y_file, file_taksiran);
                     FileInputOutput.opsiSaveFile(file_taksiran);
                     break;
                 default:
@@ -552,6 +550,9 @@ public class MenuIO {
                         }
                     }
                     double[]arrVarValFile = new double[mfile_aug.getCol()-1];
+                    for(i=0;i<m_input.getCol()-1;i++){
+                        arrVarValFile[i] = m_input.getElmt(m_input.getRow()-1,i);
+                    }
                     Matrix mfile_solved = new Matrix(mfile_aug.getRow(), 1);
                     mfile_solved = Regresi.solveRegresi(mfile_aug);
                     strEq = Regresi.getRegresiEq(mfile_solved);

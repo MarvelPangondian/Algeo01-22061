@@ -76,7 +76,7 @@ public class BicubicSpline {
         double taksiran = 0;
         for(j = 0; j<4; j++){
             for(i=0; i<4; i++){
-                taksiran += solMatrix.getElmt(k,0)*Math.pow(x,i)*Math.pow(y,j);
+                taksiran += solMatrix.getElmt(k,0) * Math.pow(x,i) * Math.pow(y,j);
                 k++;
             }
         }
