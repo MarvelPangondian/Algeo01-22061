@@ -81,7 +81,7 @@ public class SPL {
 	
 	public static Matrix cramerMethod(Matrix mIn) {
 		Matrix mOut = new Matrix(mIn.getRow(),1);
-		double detIn = Matrix.determinanEkspansiKofaktor( Matrix.getMatrixCoefficient(mIn) );
+		double detIn =Matrix.determinanReduksi(Matrix.getMatrixCoefficient(mIn));
 		
 		double x = 9999; // marker
 		int row,col;
@@ -94,7 +94,7 @@ public class SPL {
 			for (col = 0 ; col < mIn.getCol()-1 ; ++col) {
 				Matrix mTemp;
 				mTemp = Matrix.changeColumn(Matrix.getMatrixCoefficient(mIn), Matrix.getMatrixConstant(mIn), col);
-				double detOut = Matrix.determinanEkspansiKofaktor(mTemp);
+				double detOut = Matrix.determinanReduksi(mTemp);
 				double num = ((double)detOut/detIn) ;
 				mOut.setElmt(row, 0,  num);
 				row++;
