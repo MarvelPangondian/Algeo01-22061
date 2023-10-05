@@ -195,8 +195,9 @@ public class DisplaySolution {
 	
 	// display hasil determinan
 	public static void displayDeterminan(double det) {
+		det = dformat2(DisplaySolution.dformat(det));
 		
-		System.out.printf("Determinan  = %.4f\n",dformat2(DisplaySolution.dformat(det)));
+		System.out.printf("Determinan  = %.4f\n",det);
 		FileInputOutput.opsiSaveFile(det);
 		
 	}

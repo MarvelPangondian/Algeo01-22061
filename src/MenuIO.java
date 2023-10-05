@@ -129,6 +129,7 @@ public class MenuIO {
                         Matrix mat = new Matrix(row,col);
                         System.out.println("Input matriks : ");
                         mat.readMatrix();
+                        
 
                         if (!Matrix.isPersegi(Matrix.getMatrixCoefficient(mat))) {
                             System.out.println("Matrix tidak persegi !");
@@ -219,11 +220,18 @@ public class MenuIO {
                 switch(input_choice){
                     case 1:
                         int row,col;
-                        System.out.print("Banyak baris : ");
-                        row = scan.nextInt();
-                        System.out.print("Banyak kolom : ");
-                        col = scan.nextInt();
-                        scan.nextLine();
+                        do {
+	                        System.out.print("Banyak baris : ");
+	                        row = scan.nextInt();
+	                        System.out.print("Banyak kolom : ");
+	                        col = scan.nextInt();
+	                        scan.nextLine();
+	                        if (row != col ) {
+	                        	System.out.println("Matriks tidak persegi !, tolong ulangi input");
+	                        }
+                        }while(row != col);
+                        
+                        
                         Matrix inverseMatrix = new Matrix(row,col);
                         System.out.println("Input matriks : ");
                         inverseMatrix.readMatrix();
@@ -232,9 +240,16 @@ public class MenuIO {
                         break;
                     case 2:
                         Matrix inverseMatriks = FileInputOutput.readFileMatrix();
-                        inverseMatriks = Matrix.inversGaussJordan(inverseMatriks);
-                        DisplaySolution.displayMatriksInverse(inverseMatriks);
-                        break;
+                        if (Matrix.isPersegi(inverseMatriks)) {
+                        	inverseMatriks = Matrix.inversGaussJordan(inverseMatriks);
+                            DisplaySolution.displayMatriksInverse(inverseMatriks);
+                            break;
+                        }
+                        else {
+                        	System.out.println("Matriks tidak persegi, sehingga tidak memiliki matriks balikan");
+                        	break;
+                        }
+                        
                 }
                 break;
             case 2: // Adjoint
@@ -245,12 +260,19 @@ public class MenuIO {
                 scan.nextLine();
                 switch(input_choice){
                     case 1:
-                        int row,col;
-                        System.out.print("Banyak baris : ");
-                        row = scan.nextInt();
-                        System.out.print("Banyak kolom : ");
-                        col = scan.nextInt();
-                        scan.nextLine();
+                    	int row,col;
+                    	do {
+	                    	System.out.print("Banyak baris : ");
+	                        row = scan.nextInt();
+	                        System.out.print("Banyak kolom : ");
+	                        col = scan.nextInt();
+	                        scan.nextLine();
+	                        if (row != col) {
+	                        	System.out.println("Matriks tidak persegi !, tolong ulangi input");
+	                        }
+                        }while(row != col);
+                        
+                        
                         Matrix inverseMatrix = new Matrix(row,col);
                         System.out.println("Input matriks : ");
                         inverseMatrix.readMatrix();
@@ -259,8 +281,14 @@ public class MenuIO {
                         break;
                     case 2:
                         Matrix inverseMatriks = FileInputOutput.readFileMatrix();
-                        inverseMatriks = Matrix.getMatrixInverseAdjoin(inverseMatriks);
-                        DisplaySolution.displayMatriksInverse(inverseMatriks);
+                        if (Matrix.isPersegi(inverseMatriks)) {
+                        	 inverseMatriks = Matrix.getMatrixInverseAdjoin(inverseMatriks);
+                             DisplaySolution.displayMatriksInverse(inverseMatriks);
+                        }
+                        else {
+                        	System.out.println("Matriks tidak persegi, sehingga tidak memiliki matriks balikan");
+                        }
+                       
                         break;
                 }
                 break;
@@ -338,14 +366,30 @@ public class MenuIO {
             scan.nextLine();
             switch (input_choice) {
                 case 1 ://keyboard
-                    System.out.print("Masukkan N :");
-                    int n = scan.nextInt();
-                    Matrix mat = new Matrix(n,n);
-                    System.out.println("Input matrix :");
+                	int row,col;
+                	
+                	do {
+                		 System.out.print("Masukkan jumlah baris : ");
+                         row = scan.nextInt();
+                         System.out.print("Masukkan jumlah kolom : ");
+                         col  = scan.nextInt();
+                         if (row != col) {
+                        	 System.out.println("Matriks tidak persegi, tolong input ulang");
+                         }
+                         
+                	}while(row != col);
+                   
+                    
+                    
+                    Matrix mat = new Matrix(row,col);
+               	 	System.out.println("Input matrix :");
                     mat.readMatrix();
                     double det = Matrix.determinanReduksi(mat);
                     DisplaySolution.displayDeterminan(det);
                     break;
+                    
+                    
+                   
                 case 2://input text
                     Matrix mat2 = FileInputOutput.readFileMatrix();
                     if (!Matrix.isPersegi(mat2)) {
@@ -369,14 +413,25 @@ public class MenuIO {
             scan.nextLine();
             switch (input_choice) {
                 case 1 ://keyboard
-                    System.out.print("Masukkan N :");
-                    int n = scan.nextInt();
-                    Matrix mat = new Matrix(n,n);
+                	int row,col;
+                	do {
+                		System.out.print("Masukkan jumlah baris : ");
+                        row = scan.nextInt();
+                        System.out.print("Masukkan jumlah kolom : ");
+                        col = scan.nextInt();
+                        if (row != col) {
+                        	System.out.println("Matriks tidak persegi, tolong input kembali");
+                        }
+                	}while(row != col);
+                    
+                    
+                	Matrix mat = new Matrix(row,col);
                     System.out.println("Input matrix : ");
                     mat.readMatrix();
                     double det = Matrix.determinanEkspansiKofaktor(mat);
                     DisplaySolution.displayDeterminan(det);
                     break;
+                    
                 case 2://input text
                     Matrix mat2 = FileInputOutput.readFileMatrix();
                     if (!Matrix.isPersegi(mat2)) {
