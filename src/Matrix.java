@@ -78,6 +78,7 @@ public class Matrix {
 					
 				}
 				if (not_num) {
+					scan.nextLine();
 					break;
 				}
 			}
