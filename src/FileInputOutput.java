@@ -14,7 +14,7 @@ public class FileInputOutput {
 			int pilihan;
 			do {
 				
-				System.out.println("====Proses membaca file====");
+				System.out.println("===============Proses membaca file===============");
 				
 				System.out.println("1.Nama file (pastikan file di folder test)");
 				System.out.println("2.Full path");

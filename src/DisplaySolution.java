@@ -152,7 +152,7 @@ public class DisplaySolution {
 	public static void displayCramer(Matrix mat_Cramer) {
 		// Matrix input dalam cramer
 		mat_Cramer.dfMat();
-		double x = -9999;
+		double x = 9999;
 		if (Double.compare(mat_Cramer.getElmt(0, 0)   , x) == 0    )  {
 			System.out.println("Metode cramer tidak dapat dilakukan");
 		}
